@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meet Audio Capture</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial; margin: 12px; width: 280px; }
+    h1 { font-size: 16px; margin: 0 0 8px; }
+    button { padding: 8px 12px; font-size: 14px; cursor: pointer; }
+    #status { margin-top: 10px; font-size: 12px; color: #444; }
+    .ok { color: #0b7; }
+    .err { color: #c00; }
+    label { display: block; margin: 10px 0 4px; font-size: 12px; color: #333; }
+    input[type="text"] { width: 100%; padding: 6px; font-size: 12px; }
+  </style>
+  <script defer src="popup.js"></script>
+</head>
+<body>
+  <h1>Meet Audio Capture</h1>
+  <label for="sampleRate">Sample rate (16000 ou 44100)</label>
+  <input id="sampleRate" type="text" value="16000" />
+  <div style="margin-top:12px;">
+    <button id="startBtn">Iniciar Captura</button>
+    <button id="stopBtn" style="margin-left:8px;">Parar Captura</button>
+  </div>
+  <div id="status"></div>
+</body>
+</html>
+
+

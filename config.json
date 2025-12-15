@@ -1,0 +1,10 @@
+{
+  "BACKEND_WS_BASE": "ws://localhost:3001",
+  "EGRESS_AUDIO_PATH": "/egress-audio",
+  "DEFAULT_SAMPLE_RATE": 16000,
+  "DEFAULT_CHANNELS": 1,
+  "ALLOW_SCRIPT_PROCESSOR_FALLBACK": true,
+  "CAPTURE_MODE": "content"
+}
+
+

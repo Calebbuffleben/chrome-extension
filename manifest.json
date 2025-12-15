@@ -1,0 +1,42 @@
+{
+  "name": "Meet Audio Capture",
+  "description": "Captura áudio do Google Meet e envia frames PCM via WebSocket.",
+  "version": "0.1.0",
+  "manifest_version": 3,
+  "permissions": ["tabCapture", "scripting", "activeTab", "offscreen"],
+  "host_permissions": ["https://meet.google.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://meet.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://meet.google.com/*"],
+      "js": ["transcription-capture.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "webrtc-interceptor.js",
+        "meet-participant-detector.js",
+        "audio-capture-multitrack.js",
+        "audio-capture.js",
+        "audio-worklet-processor.js",
+        "feedback-overlay.js",
+        "vendor/socket.io.min.js"
+      ],
+      "matches": ["https://meet.google.com/*"]
+    }
+  ]
+}
+
+
