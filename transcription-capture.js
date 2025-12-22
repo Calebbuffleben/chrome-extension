@@ -1,6 +1,6 @@
 // Script para capturar transcrições do Google Meet
 (function () {
-	const DEFAULT_WS_URL = 'ws://localhost:3001/egress-transcription';
+	const DEFAULT_WS_URL = 'ws://backend-analysis-production-a688.up.railway.app/egress-transcription';
 	const POLL_INTERVAL_MS = 1000; // Verificar a cada 1 segundo
 
 	let ws = null;

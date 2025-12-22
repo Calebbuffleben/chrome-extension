@@ -523,7 +523,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 		}
 
 		loadConfig().then(() => {
-			const baseWs = cfgGet('BACKEND_WS_BASE', 'ws://localhost:3001');
+			const baseWs = cfgGet('BACKEND_WS_BASE', 'ws://backend-analysis-production-a688.up.railway.app');
 			const egressPath = cfgGet('EGRESS_AUDIO_PATH', '/egress-audio');
 			const defaultSr = Number(cfgGet('DEFAULT_SAMPLE_RATE', '16000')) || 16000;
 			const allowFallback =
