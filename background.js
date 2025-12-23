@@ -509,6 +509,20 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 			// meetingId optional → let backend deduce from session if available
 			return u.toString();
 		}
+		function normalizeWsBase(baseWs, tabUrl) {
+			let s = String(baseWs || '').trim();
+			const isSecurePage = /^https:\/\//i.test(String(tabUrl || ''));
+			if (!s) return s;
+			// If missing protocol, choose ws/wss based on page security
+			if (!/^[a-z]+:\/\//i.test(s)) {
+				s = (isSecurePage ? 'wss://' : 'ws://') + s;
+			}
+			// If page is https, upgrade ws->wss to avoid mixed-content blocking
+			if (isSecurePage && /^ws:\/\//i.test(s)) {
+				s = s.replace(/^ws:\/\//i, 'wss://');
+			}
+			return s;
+		}
 		function wsToHttpBase(wsBase) {
 			try {
 				const u = new URL(/^[a-z]+:\/\//i.test(wsBase) ? wsBase : 'ws://' + wsBase);
@@ -523,7 +537,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 		}
 
 		loadConfig().then(() => {
-			const baseWs = cfgGet('BACKEND_WS_BASE', 'ws://backend-analysis-production-a688.up.railway.app');
+			const baseWsFromCfg = cfgGet('BACKEND_WS_BASE', 'wss://backend-analysis-production-a688.up.railway.app');
 			const egressPath = cfgGet('EGRESS_AUDIO_PATH', '/egress-audio');
 			const defaultSr = Number(cfgGet('DEFAULT_SAMPLE_RATE', '16000')) || 16000;
 			const allowFallback =
@@ -540,6 +554,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 				}
 				chrome.tabs.get(tabId, (tab) => {
 					const tabUrl = tab?.url || 'https://meet.google.com/';
+					const baseWs = normalizeWsBase(baseWsFromCfg, tabUrl);
 					const roomCode = extractMeetRoomCode(tabUrl);
 					const finalWsUrl = buildEgressAudioWsUrl(baseWs, egressPath, tabUrl, targetSampleRate);
 					const httpBase = wsToHttpBase(baseWs);
